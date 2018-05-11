@@ -3,7 +3,7 @@ import { Layout, Menu } from 'antd';
 import { Switch, Route, Link } from 'dva/router';
 
 import styles from './BasicLayout.less';
-import Map from '../routes/Map';
+import Maps from '../routes/Maps';
 import Analyze from '../routes/Analyze';
 import Apply from '../routes/Apply';
 import Configuration from '../routes/Configuration';
@@ -47,7 +47,7 @@ class BasicLayout extends React.Component {
             <Menu.Item key="7"><Link to="/config-center">配置中心</Link></Menu.Item>
           </Menu>
           <Switch>
-            <Route path="/map" render={() => <Map />} />
+            <Route path="/map" render={() => <Maps />} />
             <Route path="/enviroment-status" render={() => <Status />} />
             <Route path="/data-analyze" render={() => <Analyze />} />
             <Route path="/data-query" render={() => <Query />} />
