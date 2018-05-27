@@ -17,7 +17,7 @@ export default {
       const data = yield select( state => state.login.adminInfo)
       console.log('data>>>', data);
       if(data.userName === payload.userName && data.password === payload.password) {
-        yield put(routerRedux.push('/map'));
+        yield put(routerRedux.push('/main/map'));
       } else {
         message.error('输入错误, 请重新输入！');
       }

@@ -10,7 +10,7 @@ export default class Maps extends React.Component {
   	super();
     this.markerEvents = {};
     this.state = {
-    	position: {longitude: 114.468664, latitude: 38.037057},
+    	position: {longitude: 120, latitude: 30},
       currentLocation: '点击地图',
       city: '保定',
       map: null,
