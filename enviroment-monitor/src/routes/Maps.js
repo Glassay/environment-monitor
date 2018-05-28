@@ -10,10 +10,11 @@ export default class Maps extends React.Component {
   	super();
     this.markerEvents = {};
     this.state = {
-    	position: {longitude: 120, latitude: 30},
+    	position: {longitude: 115.464804, latitude: 38.874062},
       currentLocation: '点击地图',
       city: '保定',
       map: null,
+      geocoder: ''
     }
     const _this = this;
     this.map = null;
@@ -69,23 +70,38 @@ export default class Maps extends React.Component {
   handleChange = () => {
     console.log('asdasdsa');
   }
-  onChange = (value, selectedOptions) => {
-    // const _this = this;
-    // const AMap = window.AMap;
-    // AMap.plugin(['AMap.placeSearch'], function() {
-    //   const placeSearch = new AMap.placeSearch({
-    //     city: selectedOptions,
-    //     map: _this.state.map
-    //   })
-    //   placeSearch.search(this.state.city);
-    // })
-    // this.setState({
-    //   city: selectedOptions[0].label
-    // });
+  onChange = (value, label) => {
+    const _this = this
+    const AMap = window.AMap
+    console.log('windowMap', AMap);
+    console.log('balel>>>>>>', label[0].label);
+    AMap.plugin(['AMap.Geocoder'],function(){
+      const geocoder = new AMap.Geocoder({
+          country:'中国',
+          map: _this.state.map
+      })
+      geocoder.getLocation(label[0].label, function(status, result) { 
+          console.log('result>>>>', result); // 拿到正向地理编码
+          console.log('status>>>>', status);
+          if (status === 'complete' && result.info === 'OK') {
+              console.log('横坐标：', result.geocodes[0].location.lng);
+              console.log('纵坐标：', result.geocodes[0].location.lat);
+              _this.setState({
+                  geocodes: result.geocodes[0].location,
+                  position: {
+                    longitude: result.geocodes[0].location.lng,
+                    latitude: result.geocodes[0].location.lat
+                  }
+              })
+          }
+      });
+    });
     console.log('city>>>>>.', this.state.city);
     console.log('position>>>>', this.state.position);
   }
   render() {
+    console.log('编码', this.state.geocodes);
+    console.log('currentLocation', this.state.currentLocation);
     const plugins = [
       'Scale',
       {
