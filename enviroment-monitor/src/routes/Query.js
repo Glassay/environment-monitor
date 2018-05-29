@@ -1,15 +1,43 @@
 import React from 'react';
-import { Select, DatePicker, Button, Divider, Table } from 'antd';
+import {
+  DatePicker,
+  Button,
+  Divider,
+  Table,
+  Form,
+  Cascader
+} from 'antd';
 
-import styles from './Status.less';
+import companyName from '../assets/data/companyName';
+import provinces from '../assets/data/provinces';
+import devices from '../assets/data/devices';
 
-const Option = Select.Option;
+const FormItem = Form.Item;
 
-export default class Query extends React.Component {
+class Query extends React.Component {
   handleChange = (value) => {
     console.log(`selected ${value}`);
   }
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        const value = {
+          area: values.area[0],
+          name: values.name[0],
+          device: values.device[0],
+          data_time: values.date
+        }
+        console.log('Received values of form: ', value);
+        // this.props.dispatch({
+        //   type: 'population/insertData',
+        //   payload: value,
+        // })
+      }
+    });
+  }
   render() {
+    const { getFieldDecorator } = this.props.form;
     const columns = [{
       title: '公司名称',
       dataIndex: 'name',
@@ -51,63 +79,56 @@ export default class Query extends React.Component {
     }]
     return(
       <div style={{ marginTop: 20, height: 100 }}>
-        <div className={styles.bgColor}>
-          <div
-            style={{
-              marginTop: 17,
-              marginLeft: 40
-            }}
+        <Form layout="inline" onSubmit={this.handleSubmit}>
+          <FormItem>
+            {getFieldDecorator('province', {
+              rules: [{ required: true, message: '请选择省份!' }],
+            })(
+              <Cascader style={{ marginLeft: '40px' }} options={provinces} placeholder="选择区域" />
+            )}
+          </FormItem>
+          <FormItem>
+            {getFieldDecorator('companyName', {
+              rules: [{ required: true, message: '请选择公司名!' }],
+            })(
+              <Cascader style={{ marginLeft: '40px' }} options={companyName} placeholder="选择公司名" />
+            )}
+          </FormItem>
+          <FormItem>
+            {getFieldDecorator('sex', {
+              rules: [{ required: true, message: '请选择设备名!' }],
+            })(
+              <Cascader style={{ marginLeft: '40px' }} options={devices} placeholder="选择设备名" />
+            )
+            }
+          </FormItem>
+          <FormItem>
+            {getFieldDecorator('date', {
+              rules: [{ required: true,  message: '请选择日期！'}]
+            })(
+              <DatePicker
+                style={{ marginLeft: '40px' }}
+                // onChange={this.dateChange}
+                placeholder="选择日期"
+              />
+            )}
+          </FormItem>
+          <FormItem>
+          <Button
+            type="primary"
+            htmlType="submit"
           >
-            <span>区域：</span>
-            <Select defaultValue="河北省" style={{ width: 120 }} onChange={this.handleChange}>
-              <Option value="1">1</Option>
-              <Option value="2">2</Option>
-              <Option value="3">3</Option>
-              <Option value="4">4</Option>
-            </Select>
-          </div>
-          <div
-            style={{
-              marginTop: 17,
-              marginLeft: 40
-            }}
-          >
-            <span>公司</span>
-            <Select defaultValue="河北申科电子股份有限公司" style={{ width: 120 }} onChange={this.handleChange}>
-              <Option value="1">1</Option>
-              <Option value="2">2</Option>
-              <Option value="3">3</Option>
-              <Option value="4">4</Option>
-            </Select>
-          </div>
-          <div
-            style={{
-              marginTop: 17,
-              marginLeft: 40
-            }}
-          >
-            <span>生产设备：</span>
-            <Select defaultValue="3#楼二楼(0003)" style={{ width: 120 }} onChange={this.handleChange}>
-              <Option value="1">1</Option>
-              <Option value="2">2</Option>
-              <Option value="3">3</Option>
-              <Option value="4">4</Option>
-            </Select>
-          </div>
-          <div
-            style={{
-              marginTop: 17,
-              marginLeft: 40
-            }}
-          >
-            <span>日期：</span>
-            <DatePicker />
-          </div>
-          <Button style={{ marginLeft: 100, marginTop: 20 }} type="primary">查询</Button>
-        </div>
+            查询
+          </Button>
+          </FormItem>
+        </Form>
         <Divider />
         <Table columns={columns} dataSource={data} />
       </div>
     );
   }
 }
+
+Query = Form.create({})(Query);
+
+export default Query;

@@ -1,4 +1,4 @@
-const options = [{
+const provinces = [{
   "value": "11",
   "label": "石家庄市"
 }, {
@@ -33,4 +33,4 @@ const options = [{
   "label":"衡水市"
 }];
 
-export default options;
+export default provinces;

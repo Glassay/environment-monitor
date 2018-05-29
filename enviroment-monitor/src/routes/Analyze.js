@@ -1,73 +1,95 @@
 import React from 'react';
-import { Select, DatePicker, Button, Divider } from 'antd';
+import {
+  DatePicker,
+  Button,
+  Divider,
+  Form,
+  Cascader
+} from 'antd';
 
-import styles from './Status.less';
+import companyName from '../assets/data/companyName';
+import provinces from '../assets/data/provinces';
+import devices from '../assets/data/devices';
 
-const Option = Select.Option;
+const FormItem = Form.Item;
 
-export default class Analyze extends React.Component {
+class Analyze extends React.Component {
   handleChange = (value) => {
     console.log(`selected ${value}`);
   }
+
+  dateChange = (value) => {
+    console.log(value);
+  }
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        // const value = {
+        //   name: values.name,
+        //   sex: values.sex,
+        //   age: +values.age,
+        //   IDnumber: values.IDnumber,
+        //   address: values.address,
+        //   area: values.area[0] + values.area[1]
+        // }
+        console.log('Received values of form: ', values);
+        // this.props.dispatch({
+        //   type: 'population/insertData',
+        //   payload: value,
+        // })
+      }
+    });
+  }
   render() {
+    const { getFieldDecorator } = this.props.form;
     return(
       <div style={{ marginTop: 20, height: 100 }}>
-        <div className={styles.bgColor}>
-          <div
-            style={{
-              marginTop: 17,
-              marginLeft: 40
-            }}
+        <Form layout="inline" onSubmit={this.handleSubmit}>
+          <FormItem>
+            {getFieldDecorator('province', {
+              // rules: [{ required: true, message: '请输入姓名!' }],
+            })(
+              <Cascader style={{ marginLeft: '40px' }} options={provinces} placeholder="选择区域" />
+            )}
+          </FormItem>
+          <FormItem>
+            {getFieldDecorator('companyName', {
+              // rules: [{ required: true, message: '请输入年龄!' }],
+            })(
+              <Cascader style={{ marginLeft: '40px' }} options={companyName} placeholder="选择公司名" />
+            )}
+          </FormItem>
+          <FormItem>
+            {getFieldDecorator('sex', {
+              // rules: [{ required: true, message: '请选择性别!' }],
+            })(
+              <Cascader style={{ marginLeft: '40px' }} options={devices} placeholder="选择设备名" />
+            )
+            }
+          </FormItem>
+          <FormItem>
+            {getFieldDecorator('date', {
+              // rules: [{ required: true,  message: '请输入正确的身份证号！'}]
+            })(
+              <DatePicker style={{ marginLeft: '40px' }} onChange={this.dateChange} />
+            )}
+          </FormItem>
+          <FormItem>
+          <Button
+            type="primary"
+            htmlType="submit"
           >
-            <span>区域：</span>
-            <Select defaultValue="河北省" style={{ width: 120 }} onChange={this.handleChange}>
-              <Option value="1">1</Option>
-              <Option value="2">2</Option>
-              <Option value="3">3</Option>
-              <Option value="4">4</Option>
-            </Select>
-          </div>
-          <div
-            style={{
-              marginTop: 17,
-              marginLeft: 40
-            }}
-          >
-            <span>公司</span>
-            <Select defaultValue="河北申科电子股份有限公司" style={{ width: 120 }} onChange={this.handleChange}>
-              <Option value="1">1</Option>
-              <Option value="2">2</Option>
-              <Option value="3">3</Option>
-              <Option value="4">4</Option>
-            </Select>
-          </div>
-          <div
-            style={{
-              marginTop: 17,
-              marginLeft: 40
-            }}
-          >
-            <span>生产设备：</span>
-            <Select defaultValue="3#楼二楼(0003)" style={{ width: 120 }} onChange={this.handleChange}>
-              <Option value="1">1</Option>
-              <Option value="2">2</Option>
-              <Option value="3">3</Option>
-              <Option value="4">4</Option>
-            </Select>
-          </div>
-          <div
-            style={{
-              marginTop: 17,
-              marginLeft: 40
-            }}
-          >
-            <span>日期：</span>
-            <DatePicker />
-          </div>
-          <Button style={{ marginLeft: 100, marginTop: 20 }} type="primary">查询</Button>
-        </div>
+            查询
+          </Button>
+          </FormItem>
+        </Form>
         <Divider />
       </div>
     );
   }
 }
+
+Analyze = Form.create({})(Analyze);
+
+export default Analyze;

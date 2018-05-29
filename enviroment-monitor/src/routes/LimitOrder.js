@@ -20,9 +20,9 @@ export default class LimitOrder extends React.Component {
     }
     const _this = this
     _this.mapEvents = {
-      // create(m) {
-      //   console.log('map实例', m);
-      // },
+      create(m) {
+        console.log('map实例', m);
+      },
       created: (map) => {
         const AMap = window.AMap
         console.log('map>>>>>>>', AMap);
@@ -72,14 +72,6 @@ export default class LimitOrder extends React.Component {
   render() {
     console.log('坐标', this.state.position);
     console.log('真实位置', this.state.currentLocation);
-    // const infoWindows = () => {
-    //   return (
-    //     <div>
-    //     <h4>公司名称</h4>
-    //     <p>{this.state.currentLocation}</p>
-    //     </div>
-    //   );
-    // }
     const html = `
       <div>
         <h4>当前位置</h4>
