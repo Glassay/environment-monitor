@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'dva';
 import {
   DatePicker,
   Button,
@@ -7,9 +8,10 @@ import {
   Form,
   Cascader
 } from 'antd';
+import moment from 'moment';
 
 import companyName from '../assets/data/companyName';
-import provinces from '../assets/data/provinces';
+import province from '../assets/data/province';
 import devices from '../assets/data/devices';
 
 const FormItem = Form.Item;
@@ -23,60 +25,73 @@ class Query extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const value = {
-          area: values.area[0],
-          name: values.name[0],
+          area: values.province[0],
+          name: values.companyName[0],
           device: values.device[0],
-          data_time: values.date
+          data_time: '2018-05-29'
         }
         console.log('Received values of form: ', value);
-        // this.props.dispatch({
-        //   type: 'population/insertData',
-        //   payload: value,
-        // })
+        this.props.dispatch({
+          type: 'query/queryInfo',
+          payload: value,
+        })
       }
     });
   }
   render() {
+    const { infos } = this.props;
+    console.log('infos>>>>>', infos);
     const { getFieldDecorator } = this.props.form;
     const columns = [{
       title: '公司名称',
       dataIndex: 'name',
       key: 'name',
     }, {
-      title: '设备名称：',
-      dataIndex: 'machineName',
-      key: 'machineName',
+      title: '设备名称',
+      dataIndex: 'device',
+      key: 'device',
     }, {
       title: '数据时间',
-      dataIndex: 'date',
-      key: 'date',
+      dataIndex: 'created',
+      key: 'created',
+      render: text => moment(text).format('L')
     }, {
-      title: 'A电流',
-      dataIndex: 'aElectric',
-      key: 'aElectric',
+      title: 'A相电流',
+      dataIndex: 'aa',
+      key: 'aa',
     }, {
-      title: 'B电流',
-      dataIndex: 'bElectric',
-      key: 'bElectric',
+      title: 'B相电流',
+      dataIndex: 'ab',
+      key: 'ab',
     }, {
-      title: 'C电流',
-      dataIndex: 'cElectric',
-      key: 'cElectric',
+      title: 'C相电流',
+      dataIndex: 'ac',
+      key: 'ac',
     }, {
-      title: 'D电流',
-      dataIndex: 'dElectric',
-      key: 'dElectric',
+      title: 'A相电压',
+      dataIndex: 'va',
+      key: 'va',
+    }, {
+      title: 'B相电压',
+      dataIndex: 'vb',
+      key: 'vb',
+    }, {
+      title: 'C相电压',
+      dataIndex: 'vc',
+      key: 'vc',
+    }, {
+      title: 'A相电量(kW-h)',
+      dataIndex: 'wa',
+      key: 'wa',
+    }, {
+      title: 'B相电量(kW-h)',
+      dataIndex: 'wb',
+      key: 'wb',
+    }, {
+      title: 'C相电量(kW-h)',
+      dataIndex: 'wc',
+      key: 'wc',
     }];
-    const data = [{
-      key: '1',
-      name: '河北申科电子股份有限公司',
-      machineName: '3#楼二楼(0003)',
-      date: '2018-05-09 10:45:00',
-      aElectric: '0.058',
-      bElectric: '0.18J',
-      cElectric: '0.154',
-      dElectric: '2/0',
-    }]
     return(
       <div style={{ marginTop: 20, height: 100 }}>
         <Form layout="inline" onSubmit={this.handleSubmit}>
@@ -84,7 +99,7 @@ class Query extends React.Component {
             {getFieldDecorator('province', {
               rules: [{ required: true, message: '请选择省份!' }],
             })(
-              <Cascader style={{ marginLeft: '40px' }} options={provinces} placeholder="选择区域" />
+              <Cascader style={{ marginLeft: '40px' }} options={province} placeholder="选择区域" />
             )}
           </FormItem>
           <FormItem>
@@ -95,7 +110,7 @@ class Query extends React.Component {
             )}
           </FormItem>
           <FormItem>
-            {getFieldDecorator('sex', {
+            {getFieldDecorator('device', {
               rules: [{ required: true, message: '请选择设备名!' }],
             })(
               <Cascader style={{ marginLeft: '40px' }} options={devices} placeholder="选择设备名" />
@@ -108,7 +123,6 @@ class Query extends React.Component {
             })(
               <DatePicker
                 style={{ marginLeft: '40px' }}
-                // onChange={this.dateChange}
                 placeholder="选择日期"
               />
             )}
@@ -123,7 +137,11 @@ class Query extends React.Component {
           </FormItem>
         </Form>
         <Divider />
-        <Table columns={columns} dataSource={data} />
+        <Table
+          rowKey="ID"
+          columns={columns}
+          dataSource={infos.data}
+        />
       </div>
     );
   }
@@ -131,4 +149,7 @@ class Query extends React.Component {
 
 Query = Form.create({})(Query);
 
-export default Query;
+export default connect(state => ({
+  infos: state.query.infos,
+  loading: state.loading.models.population
+}))(Query);
