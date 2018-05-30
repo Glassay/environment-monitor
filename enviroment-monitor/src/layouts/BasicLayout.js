@@ -56,9 +56,6 @@ class BasicLayout extends React.Component {
             <Route path="/main/config-center" render={() => <Configuration />} />
           </Switch>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>
-          Copy Right ©2018 Created by Glassay
-        </Footer>
       </Layout>
     );
   }

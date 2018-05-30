@@ -8,7 +8,7 @@ import {
 } from 'antd';
 
 import companyName from '../assets/data/companyName';
-import provinces from '../assets/data/provinces';
+import province from '../assets/data/province';
 import devices from '../assets/data/devices';
 
 const FormItem = Form.Item;
@@ -25,19 +25,13 @@ class Analyze extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        // const value = {
-        //   name: values.name,
-        //   sex: values.sex,
-        //   age: +values.age,
-        //   IDnumber: values.IDnumber,
-        //   address: values.address,
-        //   area: values.area[0] + values.area[1]
-        // }
-        console.log('Received values of form: ', values);
-        // this.props.dispatch({
-        //   type: 'population/insertData',
-        //   payload: value,
-        // })
+        const value = {
+          area: values.province[0],
+          name: values.companyName[0],
+          device: values.device[0],
+          data_time: '2018-05-29'
+        }
+        console.log('Received values of form: ', value);
       }
     });
   }
@@ -48,21 +42,21 @@ class Analyze extends React.Component {
         <Form layout="inline" onSubmit={this.handleSubmit}>
           <FormItem>
             {getFieldDecorator('province', {
-              // rules: [{ required: true, message: '请输入姓名!' }],
+              rules: [{ required: true, message: '请选择省份!' }],
             })(
-              <Cascader style={{ marginLeft: '40px' }} options={provinces} placeholder="选择区域" />
+              <Cascader style={{ marginLeft: '40px' }} options={province} placeholder="选择区域" />
             )}
           </FormItem>
           <FormItem>
             {getFieldDecorator('companyName', {
-              // rules: [{ required: true, message: '请输入年龄!' }],
+              rules: [{ required: true, message: '请选择公司名!' }],
             })(
               <Cascader style={{ marginLeft: '40px' }} options={companyName} placeholder="选择公司名" />
             )}
           </FormItem>
           <FormItem>
-            {getFieldDecorator('sex', {
-              // rules: [{ required: true, message: '请选择性别!' }],
+            {getFieldDecorator('device', {
+              rules: [{ required: true, message: '请选择设备名!' }],
             })(
               <Cascader style={{ marginLeft: '40px' }} options={devices} placeholder="选择设备名" />
             )
@@ -70,9 +64,12 @@ class Analyze extends React.Component {
           </FormItem>
           <FormItem>
             {getFieldDecorator('date', {
-              // rules: [{ required: true,  message: '请输入正确的身份证号！'}]
+              rules: [{ required: true,  message: '请选择日期！'}]
             })(
-              <DatePicker style={{ marginLeft: '40px' }} onChange={this.dateChange} />
+              <DatePicker
+                style={{ marginLeft: '40px' }}
+                placeholder="选择日期"
+              />
             )}
           </FormItem>
           <FormItem>

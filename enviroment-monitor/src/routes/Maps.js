@@ -1,11 +1,12 @@
 import React from 'react';
+import { connect } from 'dva';
 import { Cascader } from 'antd';
 import { Map, Marker, Markers, InfoWindow } from 'react-amap';
 
 import options from '../assets/data/provinces';
 import company from '../assets/data/company';
 
-export default class Maps extends React.Component {
+class Maps extends React.Component {
   constructor() {
   	super();
     this.markerEvents = {};
@@ -76,6 +77,12 @@ export default class Maps extends React.Component {
     }
   }
 
+  // componentDidMount() {
+  //   this.props.dispatch({
+  //     type: 'map/queryInfo'
+  //   })
+  // }
+
   toggleVisible() {
     this.setState({
       visible: !this.state.visible
@@ -118,6 +125,8 @@ export default class Maps extends React.Component {
   }
 
   render() {
+    const { companies } = this.props;
+    console.log('companies>>>>', companies);
     console.log('visible', this.state.visible);
     console.log('markers', this.state.markers);
     console.log('编码', this.state.geocodes);
@@ -135,12 +144,12 @@ export default class Maps extends React.Component {
         }
       }
     ]
-    // const windows = `
-    //   <div>
-    //     <h4>公司名称：</h4>
-    //     <p>asd</p>
-    //   </div>
-    // `;
+    const windows = `
+      <div>
+        <h4>公司名称：</h4>
+        <p>${this.state.markers[0].companyName}</p>
+      </div>
+    `;
     const styleCenter = {
       background: `url('http://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/map-marker-icon.png')`,
       backgroundSize: 'contain',
@@ -183,32 +192,22 @@ export default class Maps extends React.Component {
             >
               <div style={styleCenter} />
             </Marker>
-            {/* {
-              this.state.markers.map((item, index) => (
-                <Marker
-                  key={index}
-                  position={item.position}
-                  events={this.markersEvents}
-                />
-              ))
-            } */}
-            {/* <Marker
-              position={this.state.markers[0].position}
-              events={this.markersEvents}
-            /> */}
             <InfoWindow
               position={this.state.markers[0].position}
-              // position={this.state.markers}
               events={this.windowEvents}
-              content={company.companyName}
+              content={windows}
               isCustom={false}
               visible={this.state.visible}
             />
-            <div className="location">{this.state.currentLocation}</div>
+            {/* <div className="location">{this.state.currentLocation}</div> */}
           </Map>
-          <button onClick={() => this.toggleVisible()}>显示</button>
+          {/* <button onClick={() => this.toggleVisible()}>显示</button> */}
         </div>
       </div>
     );
   }
 }
+
+export default connect(state => ({
+  companies: state.map.companies
+}))(Maps);
