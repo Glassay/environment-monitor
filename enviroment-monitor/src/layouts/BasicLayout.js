@@ -11,7 +11,7 @@ import LimitOrder from '../routes/LimitOrder';
 import Query from '../routes/Query';
 import Status from '../routes/Status';
 
-const { Header, Content, Footer } = Layout;
+const { Header, Content } = Layout;
 
 
 class BasicLayout extends React.Component {

@@ -6,6 +6,7 @@ import {
   Form,
   Cascader
 } from 'antd';
+import { Chart, Axis, Geom, Tooltip } from 'bizcharts';
 
 import companyName from '../assets/data/companyName';
 import province from '../assets/data/province';
@@ -36,6 +37,29 @@ class Analyze extends React.Component {
     });
   }
   render() {
+    const analize = [
+      { time: "2008", average: 3 },
+      { time: "2009", average: 4 },
+      { time: "2010", average: 3 },
+      { time: "2011", average: 4 },
+      { time: "2012", average: 3.5 },
+      { time: "2013", average: 5 },
+      { time: "2014", average: 4.9 },
+      { time: "2015", average: 6 },
+      { time: "2016", average: 7 },
+      { time: "2017", average: 9 },
+      { time: "2018", average: 13 }
+    ];
+
+    const scale = {
+      time: {
+        alias: '年份'
+      },
+      average: {
+        alias: '电流平均值'
+      }
+    };
+    
     const { getFieldDecorator } = this.props.form;
     return(
       <div style={{ marginTop: 20, height: 100 }}>
@@ -82,6 +106,13 @@ class Analyze extends React.Component {
           </FormItem>
         </Form>
         <Divider />
+        <Chart height={400} data={analize} scale={scale} forceFit>
+          <Axis name="time" title={true} />
+          <Axis name="average" title={true} />
+          <Tooltip crosshairs={{type : "y"}}/>
+          <Geom type="line" position="time*average" size={2} />
+          <Geom type='point' position="time*average" size={4} shape={'circle'} style={{ stroke: '#fff', lineWidth: 1}} />
+        </Chart>
       </div>
     );
   }
