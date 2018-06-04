@@ -15,6 +15,8 @@ app.use(createLoading());
 app.model(require('./models/login').default);
 app.model(require('./models/query').default);
 app.model(require('./models/map').default);
+app.model(require('./models/users').default);
+app.model(require('./models/devices').default);
 
 // 4. Router
 app.router(require('./router').default);

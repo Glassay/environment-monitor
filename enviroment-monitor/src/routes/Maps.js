@@ -18,7 +18,9 @@ class Maps extends React.Component {
       map: null,
       geocoder: '',
       visible: false,
-      currentMarker: ''
+      currentMarker: '',
+      currentPosition: '',
+      currentCompany: ''
     }
     const _this = this;
     this.map = null;
@@ -34,41 +36,44 @@ class Maps extends React.Component {
         });
         })
       },
-    	click(e){
-      	const lnglat = e.lnglat;
-      	_this.setState({
-        	position: lnglat,
-          currentLocation: 'loading...'
-        });
-        console.log('position>>>>', _this.state.position);
-        _this.geocoder && _this.geocoder.getAddress(lnglat, (status, result) => {
-        console.log(result);
-        	if (status === 'complete'){
-          	if (result.regeocode){
-              _this.setState({
-                currentLocation: result.regeocode.formattedAddress || '未知地点'
-              });
-            } else {
-              _this.setState({
-                currentLocation: '未知地点'
-              });
-            }
-          } else {
-            _this.setState({
-                currentLocation: '未知地点'
-            });
-          }
-        })
-      }
+    	// click(e){
+      // 	const lnglat = e.lnglat;
+      // 	_this.setState({
+      //   	position: lnglat,
+      //     currentLocation: 'loading...'
+      //   });
+      //   console.log('position>>>>', _this.state.position);
+      //   _this.geocoder && _this.geocoder.getAddress(lnglat, (status, result) => {
+      //   console.log(result);
+      //   	if (status === 'complete'){
+      //     	if (result.regeocode){
+      //         _this.setState({
+      //           currentLocation: result.regeocode.formattedAddress || '未知地点'
+      //         });
+      //       } else {
+      //         _this.setState({
+      //           currentLocation: '未知地点'
+      //         });
+      //       }
+      //     } else {
+      //       _this.setState({
+      //           currentLocation: '未知地点'
+      //       });
+      //     }
+      //   })
+      // }
     };
     this.markersEvents = {
       click: (e, index) => {
+        console.log('index????', index);
+        console.log('公司名称', index.F.extData.companyName);
         console.log('点击信息', e.target);
         console.log('点击事件 e', e);
         console.log('点击了一下');
         this.setState({
           visible: !this.state.visible,
-          currentMarker: index
+          currentPosition: index.F.extData.position,
+          currentCompany: index.F.extData.companyName
         })
       }
     }
@@ -147,7 +152,7 @@ class Maps extends React.Component {
     const windows = `
       <div>
         <h4>公司名称：</h4>
-        <p>${this.state.markers[0].companyName}</p>
+        <p>${this.state.currentCompany}</p>
       </div>
     `;
     const styleCenter = {
@@ -193,7 +198,7 @@ class Maps extends React.Component {
               <div style={styleCenter} />
             </Marker>
             <InfoWindow
-              position={this.state.markers[0].position}
+              position={this.state.currentPosition}
               events={this.windowEvents}
               content={windows}
               isCustom={false}

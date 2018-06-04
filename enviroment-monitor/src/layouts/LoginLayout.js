@@ -14,7 +14,7 @@ class LoginLayout extends React.Component {
       if (!err) {
         console.log('Received values of form: ', values);
         this.props.dispatch({
-          type: 'login/adminLogin',
+          type: 'users/adminLogin',
           payload: values,
         })
       }
@@ -53,4 +53,4 @@ class LoginLayout extends React.Component {
 }
 LoginLayout = Form.create({})(LoginLayout);
 
-export default connect(({ login }) => ({ login }))(LoginLayout);
+export default connect(({ users }) => ({ users }))(LoginLayout);
