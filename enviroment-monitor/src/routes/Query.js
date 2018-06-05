@@ -40,7 +40,6 @@ class Query extends React.Component {
   }
   render() {
     const { infos } = this.props;
-    console.log('infos>>>>>', infos);
     const { getFieldDecorator } = this.props.form;
     const columns = [{
       title: '公司名称',

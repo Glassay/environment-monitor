@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Select, DatePicker, Button, Divider, Table } from 'antd';
+// import { Select, DatePicker, Button, Divider, Table } from 'antd';
 import { Chart, Axis, Geom, Tooltip, Coord, Legend, Label } from 'bizcharts';
 import { DataSet } from '@antv/data-set';
 
-import styles from './Status.less';
+// import styles from './Status.less';
 
-const Option = Select.Option;
+// const Option = Select.Option;
 
 class Status extends React.Component {
   componentDidMount() {
@@ -19,9 +19,6 @@ class Status extends React.Component {
   }
   render() {
     const { normal, unNormal } = this.props;
-    // console.log('infos+++++', infos);
-    console.log('normal+++++', normal);
-    console.log('unNormal+++++', unNormal);
     const { DataView } = DataSet;
     const statusData = [
       { item: '异常', count: normal },

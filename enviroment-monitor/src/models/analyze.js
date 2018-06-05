@@ -1,4 +1,4 @@
-import { message } from 'antd';
+// import { message } from 'antd';
 
 import { getInfos } from '../services/analyze';
 
@@ -12,7 +12,6 @@ export default {
   effects: {
     *queryInfo({ payload }, { put, select, call }) {
       const res = yield call(getInfos, payload);
-      console.log('分析数据>>>>', res);
       const anyInfos = yield select(state => state.analyze.infos)
       for(let i=0;i<res.data.length;i++) {
         anyInfos.push({

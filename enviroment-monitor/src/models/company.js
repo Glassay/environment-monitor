@@ -1,4 +1,4 @@
-import { message } from 'antd';
+// import { message } from 'antd';
 
 import { queryData, addData, updateData, deleteData } from '../services/company';
 

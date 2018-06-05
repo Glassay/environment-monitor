@@ -1,17 +1,13 @@
 import React from 'react';
 import { connect } from 'dva';
-import {
-  DatePicker,
-  Button,
-  Divider,
-  Form,
-  Cascader
-} from 'antd';
+// import {
+//   DatePicker,
+//   Button,
+//   Divider,
+//   Form,
+//   Cascader
+// } from 'antd';
 import { Chart, Axis, Geom, Tooltip } from 'bizcharts';
-
-import companyName from '../assets/data/companyName';
-import province from '../assets/data/province';
-import devices from '../assets/data/devices';
 
 // const FormItem = Form.Item;
 
@@ -44,7 +40,6 @@ class Analyze extends React.Component {
   }
   render() {
     const { infos } = this.props;
-    console.log('infos++++', infos);
 
     const scale = {
       time: {

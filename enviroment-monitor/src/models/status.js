@@ -1,4 +1,4 @@
-import { message } from 'antd';
+// import { message } from 'antd';
 
 import { getInfos } from '../services/status';
 
@@ -14,7 +14,6 @@ export default {
   effects: {
     *queryInfo({ payload }, { put, select, call }) {
       const res = yield call(getInfos, payload);
-      console.log('环保状态>>>>', res);
       for(let i=0;i<res.historyData.length;i++) {
         if(res.historyData[i].currentB < res.devices[i].phaseACurrent) {
           yield put({

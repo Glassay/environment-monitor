@@ -155,9 +155,7 @@ class Company extends React.Component {
     })
   }
   render() {
-    console.log('visible>', this.state.visible);
     const { companyInfo, loading } = this.props;
-    console.log('companyInfo>>>>>>', companyInfo);
     const { getFieldDecorator } = this.props.form;
     const columns = [{
       title: '公司名',

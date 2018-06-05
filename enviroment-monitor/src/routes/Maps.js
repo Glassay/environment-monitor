@@ -101,16 +101,16 @@ class Maps extends React.Component {
           }
       });
     });
-    console.log('city>>>>>.', this.state.city);
-    console.log('position>>>>', this.state.position);
+    // console.log('city>>>>>.', this.state.city);
+    // console.log('position>>>>', this.state.position);
   }
 
   render() {
     const { maps } = this.props;
-    console.log('companies>>>>', maps);
-    console.log('编码', this.state.geocodes);
-    console.log('单个信息', this.state.currentMarker);
-    console.log('currentLocation', this.state.currentLocation);
+    // console.log('companies>>>>', maps);
+    // console.log('编码', this.state.geocodes);
+    // console.log('单个信息', this.state.currentMarker);
+    // console.log('currentLocation', this.state.currentLocation);
     const plugins = [
       'Scale',
       {

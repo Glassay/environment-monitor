@@ -11,7 +11,6 @@ export default {
 
   effects: {
     *queryInfo({ payload }, { put, select, call }) {
-      console.log('payload>>>>', payload);
       const res = yield call(queryData, payload);
       if(res.status === 'success') {
         message.success('查询成功！');
@@ -22,7 +21,6 @@ export default {
       } else {
         message.error('查询失败！');
       }
-      console.log('res+++++', res);
     }
   },
 

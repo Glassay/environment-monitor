@@ -17,7 +17,6 @@ export default {
         type: 'updateCompany',
         payload: res
       })
-      console.log('Mapres>>>>>', res);
       const companies = yield select(state => state.map.maps)
       if(res.status === 'success') {
         for(let i=0;i<res.data.length;i++) {

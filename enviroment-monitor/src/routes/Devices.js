@@ -230,7 +230,6 @@ class Devices extends React.Component {
           phaseBCurrent: +values.phaseBCurrent,
           phaseCCurrent: +values.phaseCCurrent
         }
-        console.log('Received values of form: ', value);
         this.props.dispatch({
           type: 'devices/addInfo',
           payload: value,

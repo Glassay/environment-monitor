@@ -1,5 +1,5 @@
-import { routerRedux } from 'dva/router';
-import { message } from 'antd';
+// import { routerRedux } from 'dva/router';
+// import { message } from 'antd';
 
 import {
   addData,
@@ -29,7 +29,6 @@ export default {
       const res = yield call(addData, payload);
       console.log('addres>>>>', res);
       const refresh = yield call(queryData);
-      console.log('refreshuser++++', refresh);
       yield put({
         type: 'updateDevices',
         payload: refresh
@@ -40,7 +39,6 @@ export default {
       const res = yield call(updateData, payload);
       console.log('修改返回', res);
       const refresh = yield call(queryData);
-      console.log('refreshuser++++', refresh);
       yield put({
         type: 'updateDevices',
         payload: refresh
@@ -51,7 +49,6 @@ export default {
       const res = yield call(deleteData, payload);
       console.log('addres>>>>', res);
       const refresh = yield call(queryData);
-      console.log('refreshuser++++', refresh);
       yield put({
         type: 'updateDevices',
         payload: refresh
