@@ -13,14 +13,14 @@ import companyName from '../assets/data/companyName';
 import province from '../assets/data/province';
 import devices from '../assets/data/devices';
 
-const FormItem = Form.Item;
+// const FormItem = Form.Item;
 
 class Analyze extends React.Component {
-  // componentDidMount() {
-  //   this.props.dispatch({
-  //     type: 'analyze/queryInfo'
-  //   })
-  // }
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'analyze/queryInfo'
+    })
+  }
   handleChange = (value) => {
     console.log(`selected ${value}`);
   }
@@ -44,33 +44,21 @@ class Analyze extends React.Component {
   }
   render() {
     const { infos } = this.props;
-    const analize = [
-      { time: "2008", average: 3 },
-      { time: "2009", average: 4 },
-      { time: "2010", average: 3 },
-      { time: "2011", average: 4 },
-      { time: "2012", average: 3.5 },
-      { time: "2013", average: 5 },
-      { time: "2014", average: 4.9 },
-      { time: "2015", average: 6 },
-      { time: "2016", average: 7 },
-      { time: "2017", average: 9 },
-      { time: "2018", average: 13 }
-    ];
+    console.log('infos++++', infos);
 
     const scale = {
       time: {
-        alias: '年份'
+        alias: '时间'
       },
       average: {
         alias: '电流平均值'
       }
     };
     
-    const { getFieldDecorator } = this.props.form;
+    // const { getFieldDecorator } = this.props.form;
     return(
       <div style={{ marginTop: 20, height: 100 }}>
-        <Form layout="inline" onSubmit={this.handleSubmit}>
+        {/* <Form layout="inline" onSubmit={this.handleSubmit}>
           <FormItem>
             {getFieldDecorator('province', {
               rules: [{ required: true, message: '请选择省份!' }],
@@ -112,8 +100,8 @@ class Analyze extends React.Component {
           </Button>
           </FormItem>
         </Form>
-        <Divider />
-        <Chart height={400} data={analize} scale={scale} forceFit>
+        <Divider /> */}
+        <Chart height={400} data={infos} scale={scale} forceFit>
           <Axis name="time" title={true} />
           <Axis name="average" title={true} />
           <Tooltip crosshairs={{type : "y"}}/>
@@ -125,7 +113,7 @@ class Analyze extends React.Component {
   }
 }
 
-Analyze = Form.create({})(Analyze);
+// Analyze = Form.create({})(Analyze);
 
 export default connect(state => ({
   infos: state.analyze.infos

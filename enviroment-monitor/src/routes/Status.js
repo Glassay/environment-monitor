@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'dva';
 import { Select, DatePicker, Button, Divider, Table } from 'antd';
 import { Chart, Axis, Geom, Tooltip, Coord, Legend, Label } from 'bizcharts';
 import { DataSet } from '@antv/data-set';
@@ -7,15 +8,24 @@ import styles from './Status.less';
 
 const Option = Select.Option;
 
-export default class Status extends React.Component {
+class Status extends React.Component {
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'status/queryInfo'
+    })
+  }
   handleChange = (value) => {
     console.log(`selected ${value}`);
   }
   render() {
+    const { normal, unNormal } = this.props;
+    // console.log('infos+++++', infos);
+    console.log('normal+++++', normal);
+    console.log('unNormal+++++', unNormal);
     const { DataView } = DataSet;
     const statusData = [
-      { item: '异常', count: 50 },
-      { item: '正常', count: 50 },
+      { item: '异常', count: normal },
+      { item: '正常', count: unNormal },
     ];
 
     const dv = new DataView();
@@ -35,59 +45,59 @@ export default class Status extends React.Component {
         }
       }
     }
-    const columns = [{
-      title: '公司名称',
-      dataIndex: 'name',
-      key: 'name',
-    }, {
-      title: '所属区域',
-      dataIndex: 'area',
-      key: 'area',
-    }, {
-      title: '异常日期',
-      dataIndex: 'date',
-      key: 'date',
-    }, {
-      title: '行业类别',
-      dataIndex: 'type',
-      key: 'type',
-    }, {
-      title: '状态',
-      dataIndex: 'status',
-      key: 'status',
-    }];
-    const data = [{
-      key: '1',
-      name: '河北申科电子股份有限公司',
-      area: '小辛庄乡工业园区',
-      date: '2018-05-09 10:45:00',
-      type: '焦化',
-      status: '异常',
-    },{
-      key: '2',
-      name: '河北申科电子股份有限公司',
-      area: '小辛庄乡工业园区',
-      date: '2018-05-09 10:45:00',
-      type: '焦化',
-      status: '异常',
-    }, {
-      key: '3',
-      name: '河北申科电子股份有限公司',
-      area: '小辛庄乡工业园区',
-      date: '2018-05-09 10:45:00',
-      type: '焦化',
-      status: '异常',
-    }, {
-      key: '4',
-      name: '河北申科电子股份有限公司',
-      area: '小辛庄乡工业园区',
-      date: '2018-05-09 10:45:00',
-      type: '焦化',
-      status: '异常',
-    }]
+    // const columns = [{
+    //   title: '公司名称',
+    //   dataIndex: 'name',
+    //   key: 'name',
+    // }, {
+    //   title: '所属区域',
+    //   dataIndex: 'area',
+    //   key: 'area',
+    // }, {
+    //   title: '异常日期',
+    //   dataIndex: 'date',
+    //   key: 'date',
+    // }, {
+    //   title: '行业类别',
+    //   dataIndex: 'type',
+    //   key: 'type',
+    // }, {
+    //   title: '状态',
+    //   dataIndex: 'status',
+    //   key: 'status',
+    // }];
+    // const data = [{
+    //   key: '1',
+    //   name: '河北申科电子股份有限公司',
+    //   area: '小辛庄乡工业园区',
+    //   date: '2018-05-09 10:45:00',
+    //   type: '焦化',
+    //   status: '异常',
+    // },{
+    //   key: '2',
+    //   name: '河北申科电子股份有限公司',
+    //   area: '小辛庄乡工业园区',
+    //   date: '2018-05-09 10:45:00',
+    //   type: '焦化',
+    //   status: '异常',
+    // }, {
+    //   key: '3',
+    //   name: '河北申科电子股份有限公司',
+    //   area: '小辛庄乡工业园区',
+    //   date: '2018-05-09 10:45:00',
+    //   type: '焦化',
+    //   status: '异常',
+    // }, {
+    //   key: '4',
+    //   name: '河北申科电子股份有限公司',
+    //   area: '小辛庄乡工业园区',
+    //   date: '2018-05-09 10:45:00',
+    //   type: '焦化',
+    //   status: '异常',
+    // }]
     return(
       <div style={{ marginTop: 20, height: 100 }}>
-        <div className={styles.bgColor}>
+        {/* <div className={styles.bgColor}>
           <div
             style={{
               marginTop: 17,
@@ -141,7 +151,7 @@ export default class Status extends React.Component {
           </div>
           <Button style={{ marginLeft: 100, marginTop: 20 }} type="primary">查询</Button>
         </div>
-        <Divider />
+        <Divider /> */}
         <Chart height={window.innerHeight / 2} data={dv} scale={cols} padding={[ 80, 100, 80, 80 ]} forceFit>
           <Coord type='theta' radius={0.75} />
           <Axis name="percent" />
@@ -168,7 +178,7 @@ export default class Status extends React.Component {
                 return item.point.item + ': ' + val;}} />
           </Geom>
         </Chart>
-        <Table columns={columns} dataSource={data} />
+        {/* <Table columns={columns} dataSource={data} /> */}
         <div
           style={{
             position: 'relative',
@@ -197,3 +207,9 @@ export default class Status extends React.Component {
     );
   }
 }
+
+export default connect(state => ({
+  infos: state.status.infos,
+  normal: state.status.normal,
+  unNormal: state.status.unNormal
+}))(Status);
