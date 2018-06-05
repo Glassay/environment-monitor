@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'dva';
 import {
   DatePicker,
   Button,
@@ -15,6 +16,11 @@ import devices from '../assets/data/devices';
 const FormItem = Form.Item;
 
 class Analyze extends React.Component {
+  // componentDidMount() {
+  //   this.props.dispatch({
+  //     type: 'analyze/queryInfo'
+  //   })
+  // }
   handleChange = (value) => {
     console.log(`selected ${value}`);
   }
@@ -37,6 +43,7 @@ class Analyze extends React.Component {
     });
   }
   render() {
+    const { infos } = this.props;
     const analize = [
       { time: "2008", average: 3 },
       { time: "2009", average: 4 },
@@ -120,4 +127,6 @@ class Analyze extends React.Component {
 
 Analyze = Form.create({})(Analyze);
 
-export default Analyze;
+export default connect(state => ({
+  infos: state.analyze.infos
+}))(Analyze);

@@ -17,6 +17,8 @@ app.model(require('./models/query').default);
 app.model(require('./models/map').default);
 app.model(require('./models/users').default);
 app.model(require('./models/devices').default);
+app.model(require('./models/analyze').default);
+app.model(require('./models/company').default);
 
 // 4. Router
 app.router(require('./router').default);

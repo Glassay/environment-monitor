@@ -6,7 +6,7 @@ import styles from './BasicLayout.less';
 import Maps from '../routes/Maps';
 import Analyze from '../routes/Analyze';
 import Devices from '../routes/Devices';
-// import Configuration from '../routes/Configuration';
+import Company from '../routes/Company';
 import Users from '../routes/Users';
 import Query from '../routes/Query';
 import Status from '../routes/Status';
@@ -44,6 +44,7 @@ class BasicLayout extends React.Component {
             <Menu.Item key="4"><Link to="/main/data-query">数据查询</Link></Menu.Item>
             <Menu.Item key="5"><Link to="/main/device-manage">设备管理</Link></Menu.Item>
             <Menu.Item key="6"><Link to="/main/user-manage">用户管理</Link></Menu.Item>
+            <Menu.Item key="7"><Link to="/main/company-manage">公司管理</Link></Menu.Item>
           </Menu>
           <Switch>
             <Route path="/main/map" render={() => <Maps />} />
@@ -52,6 +53,7 @@ class BasicLayout extends React.Component {
             <Route path="/main/data-query" render={() => <Query />} />
             <Route path="/main/device-manage" render={() => <Devices />} />
             <Route path="/main/user-manage" render={() => <Users />} />
+            <Route path="/main/company-manage" render={() => <Company />} />
           </Switch>
         </Content>
       </Layout>

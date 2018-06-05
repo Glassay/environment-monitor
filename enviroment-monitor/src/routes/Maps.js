@@ -20,7 +20,8 @@ class Maps extends React.Component {
       visible: false,
       currentMarker: '',
       currentPosition: '',
-      currentCompany: ''
+      currentCompany: '',
+      companyInfo: ''
     }
     const _this = this;
     this.map = null;
@@ -36,43 +37,18 @@ class Maps extends React.Component {
         });
         })
       },
-    	// click(e){
-      // 	const lnglat = e.lnglat;
-      // 	_this.setState({
-      //   	position: lnglat,
-      //     currentLocation: 'loading...'
-      //   });
-      //   console.log('position>>>>', _this.state.position);
-      //   _this.geocoder && _this.geocoder.getAddress(lnglat, (status, result) => {
-      //   console.log(result);
-      //   	if (status === 'complete'){
-      //     	if (result.regeocode){
-      //         _this.setState({
-      //           currentLocation: result.regeocode.formattedAddress || '未知地点'
-      //         });
-      //       } else {
-      //         _this.setState({
-      //           currentLocation: '未知地点'
-      //         });
-      //       }
-      //     } else {
-      //       _this.setState({
-      //           currentLocation: '未知地点'
-      //       });
-      //     }
-      //   })
-      // }
     };
     this.markersEvents = {
       click: (e, index) => {
         console.log('index????', index);
+        console.log('坐标>>>>>', index.F.extData.position);
         console.log('公司名称', index.F.extData.companyName);
-        console.log('点击信息', e.target);
-        console.log('点击事件 e', e);
-        console.log('点击了一下');
         this.setState({
           visible: !this.state.visible,
-          currentPosition: index.F.extData.position,
+          currentPosition: {
+            longitude: index.F.extData.position.longitude,
+            latitude: index.F.extData.position.latitude
+          },
           currentCompany: index.F.extData.companyName
         })
       }
@@ -82,11 +58,11 @@ class Maps extends React.Component {
     }
   }
 
-  // componentDidMount() {
-  //   this.props.dispatch({
-  //     type: 'map/queryInfo'
-  //   })
-  // }
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'map/queryInfo'
+    })
+  }
 
   toggleVisible() {
     this.setState({
@@ -130,10 +106,8 @@ class Maps extends React.Component {
   }
 
   render() {
-    const { companies } = this.props;
-    console.log('companies>>>>', companies);
-    console.log('visible', this.state.visible);
-    console.log('markers', this.state.markers);
+    const { maps } = this.props;
+    console.log('companies>>>>', maps);
     console.log('编码', this.state.geocodes);
     console.log('单个信息', this.state.currentMarker);
     console.log('currentLocation', this.state.currentLocation);
@@ -187,7 +161,7 @@ class Maps extends React.Component {
             center={this.state.position}
           >
             <Markers
-              markers={this.state.markers}
+              markers={maps}
               events={this.markersEvents}
             />
             <Marker
@@ -214,5 +188,5 @@ class Maps extends React.Component {
 }
 
 export default connect(state => ({
-  companies: state.map.companies
+  maps: state.map.maps
 }))(Maps);

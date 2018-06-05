@@ -27,7 +27,7 @@ class LoginLayout extends React.Component {
         <Content className={styles.bgimage}>
           <Form onSubmit={this.handleSubmit} className={styles.loginForm}>
             <FormItem>
-              {getFieldDecorator('userName', {
+              {getFieldDecorator('name', {
                 rules: [{ required: true, message: '请输入用户名！' }],
               })(
                 <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />

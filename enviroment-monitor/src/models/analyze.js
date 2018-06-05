@@ -1,18 +1,18 @@
 import { message } from 'antd';
 
-import { queryData } from '../services/query';
+import { getInfos } from '../services/analyze';
 
 export default {
-  namespace: 'query',
+  namespace: 'analyze',
 
   state: {
-    infos: ''
+    infos: []
   },
 
   effects: {
     *queryInfo({ payload }, { put, select, call }) {
-      console.log('payload>>>>', payload);
-      const res = yield call(queryData, payload);
+      const res = yield call(getInfos, payload);
+      console.log('分析数据>>>>', res);
       if(res.status === 'success') {
         message.success('查询成功！');
         yield put({
@@ -22,7 +22,6 @@ export default {
       } else {
         message.error('查询失败！');
       }
-      console.log('res+++++', res);
     }
   },
 
@@ -33,5 +32,5 @@ export default {
         infos: payload
       }
     }
-  }
+  },
 }

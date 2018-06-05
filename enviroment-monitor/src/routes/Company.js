@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'dva';
 import {
   Form,
   Input,
@@ -7,7 +8,6 @@ import {
   Table,
   Modal
 } from 'antd';
-import { connect } from 'dva';
 
 const FormItem = Form.Item;
 
@@ -19,7 +19,7 @@ const ModifyModal = Form.create()(
       return (
         <Modal
           visible={visible}
-          title="人员信息修改"
+          title="公司信息修改"
           okText="提交"
           cancelText="取消"
           onCancel={onCancel}
@@ -43,28 +43,28 @@ const ModifyModal = Form.create()(
               )}
             </FormItem>
             <FormItem>
-              {getFieldDecorator('password', {
-                initialValue: this.props.password,
-                rules: [{ required: true, min: 6, message: '请输入最少六位密码!' }],
+              {getFieldDecorator('divisions', {
+                initialValue: this.props.divisions,
+                rules: [{ required: true, message: '请输入所属区域!' }],
               })(
-                <Input placeholder="密码" />
+                <Input placeholder="所属区域" />
               )}
             </FormItem>
             <FormItem>
-              {getFieldDecorator('real_name', {
-                initialValue: this.props.real_name,
-                rules: [{ required: true, message: '请输入真实姓名!' }],
+              {getFieldDecorator('jd', {
+                initialValue: this.props.jd,
+                rules: [{ required: true, message: '请输入经度!' }],
               })(
-                <Input placeholder="真实姓名" />
+                <Input placeholder="经度" />
               )
               }
             </FormItem>
             <FormItem>
-              {getFieldDecorator('UserRole', {
-                initialValue: this.props.UserRole,
-                rules: [{ required: true, message: '请输入用户角色信息！'}]
+              {getFieldDecorator('wd', {
+                initialValue: this.props.wd,
+                rules: [{ required: true, message: '请输入纬度！'}]
               })(
-                <Input disabled={true} placeholder="角色信息" />
+                <Input placeholder="纬度" />
               )}
             </FormItem>
           </Form>
@@ -74,16 +74,35 @@ const ModifyModal = Form.create()(
   }
 )
 
-class Users extends React.Component {
+class Company extends React.Component {
   componentDidMount() {
     this.props.dispatch({
-      type: 'users/queryInfo'
+      type: 'company/queryInfo'
     })
   }
 
   state = {
     visible: false,
     singleData: '',
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        const value = {
+          name: values.name,
+          divisions: values.divisions,
+          jd: +values.jd,
+          wd: +values.wd,
+        }
+        console.log('Received values of form: ', value);
+        this.props.dispatch({
+          type: 'company/addInfo',
+          payload: value,
+        })
+      }
+    });
   }
 
   showModal = (i) => {
@@ -104,6 +123,13 @@ class Users extends React.Component {
     this.formRef = formRef;
   }
 
+  handleDelete = (ID) => {
+    this.props.dispatch({
+      type: 'company/deleteInfo',
+      payload: ID
+    })
+  }
+
   handleCreate = (e) => {
     e.preventDefault();
     const form = this.formRef.props.form;
@@ -114,12 +140,12 @@ class Users extends React.Component {
       const modifyInfo = {
         ID: values.ID,
         name: values.name,
-        password: values.password,
-        real_name: values.real_name,
+        divisions: values.divisions,
+        jd: +values.jd,
+        wd: +values.wd,
       }
-      console.log('modifuInfo', modifyInfo);
       this.props.dispatch({
-        type: 'users/updateInfo',
+        type: 'company/updateInfo',
         payload: modifyInfo
       })
       form.resetFields();
@@ -128,49 +154,27 @@ class Users extends React.Component {
       })
     })
   }
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-        this.props.dispatch({
-          type: 'users/addInfo',
-          payload: values,
-        })
-      }
-    });
-  }
-
-  handleDelete = (ID) => {
-    console.log('ID+++++', ID);
-    this.props.dispatch({
-      type: 'users/deleteInfo',
-      payload: ID
-    })
-  }
-
   render() {
-    console.log('单个信息', this.state.singleData);
-    const { userInfo, loading } = this.props;
-    console.log('用户信息', userInfo);
+    console.log('visible>', this.state.visible);
+    const { companyInfo, loading } = this.props;
+    console.log('companyInfo>>>>>>', companyInfo);
     const { getFieldDecorator } = this.props.form;
     const columns = [{
-      title: '用户名',
+      title: '公司名',
       dataIndex: 'name',
       key: 'name',
     }, {
-      title: '密码',
-      dataIndex: 'password',
-      key: 'password',
+      title: '所属区域',
+      dataIndex: 'divisions',
+      key: 'divisions',
     }, {
-      title: '真实姓名',
-      dataIndex: 'real_name',
-      key: 'real_name',
+      title: '经度',
+      dataIndex: 'jd',
+      key: 'jd',
     }, {
-      title: '角色信息',
-      dataIndex: 'UserRole',
-      key: 'UserRole',
+      title: '纬度',
+      dataIndex: 'wd',
+      key: 'wd',
     }, {
       render: (text, ID) => (
         <span>
@@ -181,9 +185,9 @@ class Users extends React.Component {
             wrappedComponentRef={this.saveFormRef}
             ID={this.state.singleData.ID}
             name={this.state.singleData.name}
-            password={this.state.singleData.password}
-            real_name={this.state.singleData.real_name}
-            UserRole={this.state.singleData.UserRole}
+            divisions={this.state.singleData.divisions}
+            jd={this.state.singleData.jd}
+            wd={this.state.singleData.wd}
             visible={this.state.visible}
             onCancel={this.handleCancel}
             onCreate={this.handleCreate}
@@ -196,31 +200,31 @@ class Users extends React.Component {
         <Form layout="inline" onSubmit={this.handleSubmit}>
           <FormItem>
             {getFieldDecorator('name', {
-              rules: [{ required: true, message: '请输入用户名!' }],
+              rules: [{ required: true, message: '请输入公司名!' }],
             })(
-              <Input style={{ marginLeft: '40px' }} placeholder="用户名" />
+              <Input style={{ marginLeft: '40px' }} placeholder="公司名" />
             )}
           </FormItem>
           <FormItem>
-            {getFieldDecorator('password', {
-              rules: [{ required: true, min: 6, message: '请输入最少六位密码!' }],
+            {getFieldDecorator('divisions', {
+              rules: [{ required: true, message: '请输入所属区域!' }],
             })(
-              <Input style={{ marginLeft: '40px' }} placeholder="密码" />
+              <Input style={{ marginLeft: '40px' }} placeholder="所属区域" />
             )}
           </FormItem>
           <FormItem>
-            {getFieldDecorator('real_name', {
-              rules: [{ required: true, message: '请输入真实姓名!' }],
+            {getFieldDecorator('jd', {
+              rules: [{ required: true, message: '请输入经度!' }],
             })(
-              <Input style={{ marginLeft: '40px' }} placeholder="真实姓名" />
+              <Input style={{ marginLeft: '40px' }} placeholder="经度" />
             )
             }
           </FormItem>
           <FormItem>
-            {getFieldDecorator('UserRole', {
-              rules: [{ required: true, message: '请输入用户角色信息！'}]
+            {getFieldDecorator('wd', {
+              rules: [{ required: true, message: '请输入纬度！'}]
             })(
-              <Input style={{ marginLeft: '40px' }} placeholder="角色信息" />
+              <Input style={{ marginLeft: '40px' }} placeholder="纬度" />
             )}
           </FormItem>
           <FormItem>
@@ -238,7 +242,7 @@ class Users extends React.Component {
           style={{ marginTop: 20 }}
           rowKey="ID"
           columns={columns}
-          dataSource={userInfo.data}
+          dataSource={companyInfo.data}
           loading={loading}
         />
       </div>
@@ -246,9 +250,9 @@ class Users extends React.Component {
   }
 }
 
-Users = Form.create({})(Users);
+Company = Form.create({})(Company);
 
 export default connect(state => ({
-  userInfo: state.users.userInfo,
-  loading: state.loading.models.users
-}))(Users);
+  companyInfo: state.company.companyInfo,
+  loading: state.loading.models.company
+}))(Company)
