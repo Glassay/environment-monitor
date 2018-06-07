@@ -8,7 +8,7 @@ import HttpStatus from 'http-status-codes'
 //   requestTimeOut
 // }                 from './config'
 
-axios.defaults.baseURL = "http://192.168.0.111:8080";
+axios.defaults.baseURL = "http://192.168.0.104:8080";
 axios.defaults.timeout = 10000;
 axios.defaults.withCredentials = true;
 

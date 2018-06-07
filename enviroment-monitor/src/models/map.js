@@ -19,12 +19,14 @@ export default {
       })
       const companies = yield select(state => state.map.maps)
       if(res.status === 'success') {
+        console.log('坐标奥斯达斯+', res);
+        // console.log('经度=++++', res.data[0].JD);
         for(let i=0;i<res.data.length;i++) {
           companies.push({
             'companyName': res.data[i].name,
             'position': {
-              'longitude': res.data[i].JD,
-              'latitude': res.data[i].WD
+              'longitude': res.data[i].jd,
+              'latitude': res.data[i].wd
             }
           })
         }

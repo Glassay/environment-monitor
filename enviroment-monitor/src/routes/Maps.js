@@ -107,7 +107,8 @@ class Maps extends React.Component {
 
   render() {
     const { maps } = this.props;
-    // console.log('companies>>>>', maps);
+    console.log('companies>>>>', maps);
+    console.log('markers>>>>', this.state.markers);
     // console.log('编码', this.state.geocodes);
     // console.log('单个信息', this.state.currentMarker);
     // console.log('currentLocation', this.state.currentLocation);
