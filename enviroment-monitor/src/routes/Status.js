@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-// import { Select, DatePicker, Button, Divider, Table } from 'antd';
+import { Table } from 'antd';
 import { Chart, Axis, Geom, Tooltip, Coord, Legend, Label } from 'bizcharts';
 import { DataSet } from '@antv/data-set';
 
@@ -42,56 +42,56 @@ class Status extends React.Component {
         }
       }
     }
-    // const columns = [{
-    //   title: '公司名称',
-    //   dataIndex: 'name',
-    //   key: 'name',
-    // }, {
-    //   title: '所属区域',
-    //   dataIndex: 'area',
-    //   key: 'area',
-    // }, {
-    //   title: '异常日期',
-    //   dataIndex: 'date',
-    //   key: 'date',
-    // }, {
-    //   title: '行业类别',
-    //   dataIndex: 'type',
-    //   key: 'type',
-    // }, {
-    //   title: '状态',
-    //   dataIndex: 'status',
-    //   key: 'status',
-    // }];
-    // const data = [{
-    //   key: '1',
-    //   name: '河北申科电子股份有限公司',
-    //   area: '小辛庄乡工业园区',
-    //   date: '2018-05-09 10:45:00',
-    //   type: '焦化',
-    //   status: '异常',
-    // },{
-    //   key: '2',
-    //   name: '河北申科电子股份有限公司',
-    //   area: '小辛庄乡工业园区',
-    //   date: '2018-05-09 10:45:00',
-    //   type: '焦化',
-    //   status: '异常',
-    // }, {
-    //   key: '3',
-    //   name: '河北申科电子股份有限公司',
-    //   area: '小辛庄乡工业园区',
-    //   date: '2018-05-09 10:45:00',
-    //   type: '焦化',
-    //   status: '异常',
-    // }, {
-    //   key: '4',
-    //   name: '河北申科电子股份有限公司',
-    //   area: '小辛庄乡工业园区',
-    //   date: '2018-05-09 10:45:00',
-    //   type: '焦化',
-    //   status: '异常',
-    // }]
+    const columns = [{
+      title: '公司名称',
+      dataIndex: 'name',
+      key: 'name',
+    }, {
+      title: '所属区域',
+      dataIndex: 'area',
+      key: 'area',
+    }, {
+      title: '异常日期',
+      dataIndex: 'date',
+      key: 'date',
+    }, {
+      title: '行业类别',
+      dataIndex: 'type',
+      key: 'type',
+    }, {
+      title: '状态',
+      dataIndex: 'status',
+      key: 'status',
+    }];
+    const data = [{
+      key: '1',
+      name: '河北申科电子股份有限公司',
+      area: '小辛庄乡工业园区',
+      date: '2018-05-09 10:45:00',
+      type: '焦化',
+      status: '异常',
+    },{
+      key: '2',
+      name: '河北申科电子股份有限公司',
+      area: '小辛庄乡工业园区',
+      date: '2018-05-09 10:45:00',
+      type: '焦化',
+      status: '异常',
+    }, {
+      key: '3',
+      name: '河北申科电子股份有限公司',
+      area: '小辛庄乡工业园区',
+      date: '2018-05-09 10:45:00',
+      type: '焦化',
+      status: '异常',
+    }, {
+      key: '4',
+      name: '河北申科电子股份有限公司',
+      area: '小辛庄乡工业园区',
+      date: '2018-05-09 10:45:00',
+      type: '焦化',
+      status: '异常',
+    }]
     return(
       <div style={{ marginTop: 20, height: 100 }}>
         {/* <div className={styles.bgColor}>
@@ -175,7 +175,7 @@ class Status extends React.Component {
                 return item.point.item + ': ' + val;}} />
           </Geom>
         </Chart>
-        {/* <Table columns={columns} dataSource={data} /> */}
+        <Table columns={columns} dataSource={data} />
         <div
           style={{
             position: 'relative',

@@ -1,4 +1,5 @@
 // import { message } from 'antd';
+import moment from 'moment';
 
 import { getInfos } from '../services/analyze';
 
@@ -15,7 +16,7 @@ export default {
       const anyInfos = yield select(state => state.analyze.infos)
       for(let i=0;i<res.data.length;i++) {
         anyInfos.push({
-          'time': res.data[i].dataTimeHour,
+          'time': moment(res.data[i].dataTimeHour).format('LTS'),
           'average': (res.data[i].currentA + res.data[i].currentA + res.data[i].currentA) / 3
         })
       }
